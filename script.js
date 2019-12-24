@@ -1,13 +1,32 @@
 'use strict';
 
+(function(){
+
 let slidItem = document.querySelectorAll('.slider-item'),
     sliderDots = document.querySelector('.slider_dots'),
     dotItem = document.querySelectorAll('.dot'),
     prev = document.querySelector('.prev'),
     next = document.querySelector('.next'),
     slideIndex = 0;
+ 
+ // first slider option -----------------------------------------------------   
+
+setInterval(nextSlide, 5000);
+
+function togglesDot() {
+    sliderDots.addEventListener('click', event => {
+        let target = event.target;
     
-// setInterval(nextSlide, 2000);
+        if(target.classList.contains('dot')) {
+            for(let i = 0; i< dotItem.length; i++) {
+                if(target === dotItem[i]) {
+                    slideIndex = i;
+                    showSlides(slideIndex);
+                }
+            }
+        }
+    });
+}
 
 function nextSlide() {
     if (slideIndex === slidItem.length - 1) {
@@ -43,20 +62,10 @@ function showSlides(slideIndex) {
 
 };
 
-
-function togglesDot() {
-    sliderDots.addEventListener('click', event => {
-        let target = event.target;
-    
-        if(target.classList.contains('dot')) {
-            for(let i = 0; i< dotItem.length; i++) {
-                if(target === dotItem[i]) {
-                    slideIndex = i;
-                    showSlides(slideIndex);
-                }
-            }
-        }
-    });
-}
-
 showSlides(slideIndex);
+
+
+// second slider option -----------------------------------------------------   
+
+
+})()
