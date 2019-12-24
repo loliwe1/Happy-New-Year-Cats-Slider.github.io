@@ -1,14 +1,41 @@
 'use strict';
 
-export default class Slider {
-    constructor(sliderItem, sliderDot, prevSlide, nextSlide) {
-        this.sliderItem = sliderItem;
-        this.sliderDot = sliderDot;
-        this.prevSlide = prevSlide;
-        this.nextSlide = nextSlide;
+let slidItem = document.querySelectorAll('.slider-item'),
+    dotItem = document.querySelectorAll('.dot'),
+    prev = document.querySelector('.prev'),
+    next = document.querySelector('.next'),
+    slideIndex = 0;
+
+prev.addEventListener('click', prevSlide);
+next.addEventListener('click', nextSlide);
+
+function nextSlide() {
+    if (slideIndex === slidItem.length - 1) {
+        slideIndex = 0;
+        showSlides(slideIndex)
+    }else {
+        slideIndex += 1
+        showSlides(slideIndex)
     }
 
+};
+
+function prevSlide() {
+    if (slideIndex === 0) {
+        slideIndex = slidItem.length;
+    }
+    slideIndex -= 1;
+    showSlides(slideIndex)
 
 }
 
-const mySlider = new Slider();
+function showSlides(slideIndex) {
+    slidItem.forEach(slide => slide.style.display = 'none');
+    dotItem.forEach(dot => dot.classList.remove('dot-active'));
+
+    slidItem[slideIndex].style.display = 'block';
+    dotItem[slideIndex].classList.add('dot-active');
+
+};
+
+showSlides(slideIndex);

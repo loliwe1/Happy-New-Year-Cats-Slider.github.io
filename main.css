@@ -45,6 +45,7 @@ img {
 .slider {
   width: 100%;
   position: relative;
+  margin-top: 150px;
 }
 
 .slider-item {
