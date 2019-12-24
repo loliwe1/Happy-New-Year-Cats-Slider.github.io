@@ -6,10 +6,7 @@ let slidItem = document.querySelectorAll('.slider-item'),
     next = document.querySelector('.next'),
     slideIndex = 0;
     
-
-prev.addEventListener('click', prevSlide);
-next.addEventListener('click', nextSlide);
-document.documentElement.onmousedown = ()=> {return false};
+// setInterval(nextSlide, 2000);
 
 function nextSlide() {
     if (slideIndex === slidItem.length - 1) {
@@ -38,6 +35,14 @@ function showSlides(slideIndex) {
     slidItem[slideIndex].style.display = 'block';
     dotItem[slideIndex].classList.add('dot-active');
 
+    prev.addEventListener('click', prevSlide);
+    next.addEventListener('click', nextSlide);
+    document.documentElement.onmousedown = ()=> {return false};
+
 };
+
+// function togglesDot() {
+
+// }
 
 showSlides(slideIndex);
