@@ -5,9 +5,11 @@ let slidItem = document.querySelectorAll('.slider-item'),
     prev = document.querySelector('.prev'),
     next = document.querySelector('.next'),
     slideIndex = 0;
+    
 
 prev.addEventListener('click', prevSlide);
 next.addEventListener('click', nextSlide);
+document.documentElement.onmousedown = ()=> {return false};
 
 function nextSlide() {
     if (slideIndex === slidItem.length - 1) {
