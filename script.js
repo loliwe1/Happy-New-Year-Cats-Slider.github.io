@@ -1,6 +1,7 @@
 'use strict';
 
 let slidItem = document.querySelectorAll('.slider-item'),
+    sliderDots = document.querySelector('.slider_dots'),
     dotItem = document.querySelectorAll('.dot'),
     prev = document.querySelector('.prev'),
     next = document.querySelector('.next'),
@@ -38,11 +39,24 @@ function showSlides(slideIndex) {
     prev.addEventListener('click', prevSlide);
     next.addEventListener('click', nextSlide);
     document.documentElement.onmousedown = ()=> {return false};
+    togglesDot();
 
 };
 
-// function togglesDot() {
 
-// }
+function togglesDot() {
+    sliderDots.addEventListener('click', event => {
+        let target = event.target;
+    
+        if(target.classList.contains('dot')) {
+            for(let i = 0; i< dotItem.length; i++) {
+                if(target === dotItem[i]) {
+                    slideIndex = i;
+                    showSlides(slideIndex);
+                }
+            }
+        }
+    });
+}
 
 showSlides(slideIndex);
