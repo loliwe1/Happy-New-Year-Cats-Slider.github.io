@@ -1,0 +1,147 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: url(/images/bg/NY-bg.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100%;
+}
+
+ul {
+  text-decoration: none;
+  list-style: none;
+  padding-left: 0;
+}
+
+li {
+  width: 900px;
+  height: 600px;
+  margin: 0;
+  padding: 0;
+  border-radius: 50%;
+}
+
+
+img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 3%
+}
+
+.container {
+  max-width: 1920px;
+  margin-bottom: 100px;
+}
+
+.slider_wrapper {
+  width: 900px;
+  margin: 0 auto;
+
+}
+
+.slider {
+  width: 100%;
+  position: relative;
+}
+
+.slider-item {
+  transition: 0.5s;
+}
+
+.prev {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 70px;
+  height: 100%;
+  background: rgba(0, 0, 0, 0);
+  transition: 0.3s;
+  cursor: pointer;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.prev:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.prev:hover .arrow_left {
+  opacity: 1;
+}
+
+.arrow_left {
+  width: 30px;
+  height: 30px;
+  background: url(../icons/left-arrow.svg) center no-repeat;
+  background-size: cover;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%);
+  opacity: .4;
+  transition: 1s;
+}
+
+
+.next {
+  position: absolute;
+  top: 0;
+  left: 830px;
+  width: 70px;
+  height: 100%;
+  background: rgba(0, 0, 0, 0);
+  transition: 0.3s;
+  cursor: pointer;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.arrow_right {
+  width: 30px;
+  height: 30px;
+  background: url(../icons/right-arrow.svg) center no-repeat;
+  background-size: cover;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%);
+  opacity: .4;
+  transition: 1s;
+
+}
+
+.next:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.next:hover .arrow_right {
+  opacity: 1;
+}
+
+.slider_dots {
+  display: flex;
+  justify-content: center;
+}
+
+.dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.2);
+  margin-left: 10px;
+  cursor: pointer;
+  text-align: center;
+  transition: 0.4s;
+
+}
+
+.dot-active {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.dot:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
