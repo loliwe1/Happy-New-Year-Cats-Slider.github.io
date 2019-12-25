@@ -2,8 +2,9 @@
 
 (function () {
 
-    const sliderWrapper = document.querySelector('.slider_wrapper'),
+    let sliderWrapper = document.querySelector('.slider_wrapper'),
         slider = document.querySelector('.slider'),
+        sliderUl = slider.querySelector('ul'),
         bigPhoto = document.querySelector('.big-photo'),
         slidItem = document.querySelectorAll('.slider-item'),
         sliderDots = document.querySelector('.slider_dots'),
@@ -13,8 +14,10 @@
         settingsButton = document.querySelector('.settings-button'),
         settingsMenu = document.querySelector('.settings'),
         changeBg = document.querySelector('.change-bg'),
-        resetSettings = document.querySelector('.reset-settings')
+        resetSettings = document.querySelector('.reset-settings'),
+        newSlide = document.querySelector('.new-slide')
     let slideIndex = 0;
+    console.log(slider);
 
 
     let sliderNumber = +prompt('Выберите номер анимации слайдера(1- карусель, 2- исчезновение, 3- галерея)', 1);
@@ -51,7 +54,7 @@
     }
 
     function nextSlide() {
-        if (slideIndex === slidItem.length - 1) {
+        if (slideIndex === slidItem.length -1) {
             slideIndex = 0;
             showSlides(slideIndex)
         } else {
@@ -71,7 +74,10 @@
     }
 
     function showSlides(slideIndex) {
-        slidItem.forEach(slide => slide.style.display = 'none');
+        slidItem.forEach(slide => {
+            slide.style.display = 'none';
+            console.log(slide);
+        })
         dotItem.forEach(dot => dot.classList.remove('dot-active'));
 
         slidItem[slideIndex].style.display = 'block';
@@ -235,5 +241,29 @@ function resetAllSettings() {
 }
 
 resetSettings.addEventListener('click', resetAllSettings);
+
+
+// new Slide -----------------------------------------------------------------------------
+newSlide.addEventListener('click', addNewSlide );
+
+function addNewSlide() {
+    let slideUrl = prompt('Введите адрес картинки для нового слайда - jpeg, jpg, png, WebP', 'https://cdnimg.rg.ru/img/content/169/87/52/Kot_shredingera_d_850.jpg');
+    let li = document.createElement('li');
+    let div = document.createElement('div');
+    div.classList.add('dot');
+    sliderDots.append(div);
+
+    li.classList.add('slider-item');
+    li.classList.add('fade');
+    li.style.display = 'none';
+    li.innerHTML = `<img src="${slideUrl}" alt="slider-img">`;
+    sliderUl.append(li);
+    slider = document.querySelector('.slider');
+    slidItem = document.querySelectorAll('.slider-item');
+    dotItem = document.querySelectorAll('.dot');
+    slideIndex = 0;
+    showSlides(slideIndex);
+      
+}
 
 })()
