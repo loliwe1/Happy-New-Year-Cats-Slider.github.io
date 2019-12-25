@@ -11,9 +11,10 @@
         prev = document.querySelector('.prev'),
         next = document.querySelector('.next'),
         settingsButton = document.querySelector('.settings-button'),
-        settingsMenu = document.querySelector('.settings');
+        settingsMenu = document.querySelector('.settings'),
+        changeBg = document.querySelector('.change-bg');
     let slideIndex = 0;
-    
+
 
     let sliderNumber = +prompt('Выберите номер анимации слайдера(1- карусель, 2- исчезновение, 3- галерея)', 1);
 
@@ -27,7 +28,7 @@
 
     //  // first slider option -----------------------------------------------------   
 
-    // setInterval(nextSlide, 5000);
+    // setInterval(nextSlide, 3000);
 
     function togglesDot() {
         sliderDots.addEventListener('click', event => {
@@ -172,17 +173,32 @@
         activeGaleryItem();
     }
 
-//general menu settings ------------------------------------------------------------
+    //general menu settings ------------------------------------------------------------
 
-settingsButton.addEventListener('click', () => {
-    settingsMenu.classList.toggle('settings-display');
-})
-
-
- // change background --------------------------------------------------------------
+    settingsButton.addEventListener('click', () => {
+        settingsMenu.classList.toggle('settings-display');
+    })
 
 
+    // change background --------------------------------------------------------------
 
-    
+    changeBg.addEventListener('click', changedBG);
+
+    function changedBG() {
+        const regExp = /(http[s]*)[:][/][/].+[.]((jpeg)|(jpg)|(png)|(WebP))/i;
+        let bgUrl = prompt('Введите адрес картинки для вашего фона в формате - jpeg, jpg, png, WebP', 'https://img-fotki.yandex.ru/get/15595/238977675.60/0_102743_f480a2dc_orig.jpg');
+        if(regExp.test(bgUrl)) {
+            document.body.style.background = `url(${bgUrl})`;
+            document.body.style.backgroundSize = 'cover';
+            document.body.style.backgroundRepeat = 'no-repeat';
+            settingsMenu.classList.toggle('settings-display');
+
+        }else {
+            alert('Введен неверный адрес картинки, попробуйте еще раз');
+        }
+        
+
+    }
+
 
 })()
