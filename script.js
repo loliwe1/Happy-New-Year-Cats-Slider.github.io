@@ -9,10 +9,13 @@
         sliderDots = document.querySelector('.slider_dots'),
         dotItem = document.querySelectorAll('.dot'),
         prev = document.querySelector('.prev'),
-        next = document.querySelector('.next');
+        next = document.querySelector('.next'),
+        settingsButton = document.querySelector('.settings-button'),
+        settingsMenu = document.querySelector('.settings');
     let slideIndex = 0;
+    
 
-    let sliderNumber = +prompt('Выберите номер анимации слайдера(1- карусель, 2- исчезновение)', 1);
+    let sliderNumber = +prompt('Выберите номер анимации слайдера(1- карусель, 2- исчезновение, 3- галерея)', 1);
 
     if (sliderNumber === 1) {
         showSlidesCarousel(slideIndex);
@@ -168,4 +171,18 @@
         galeryStyle();
         activeGaleryItem();
     }
+
+//general menu settings ------------------------------------------------------------
+
+settingsButton.addEventListener('click', () => {
+    settingsMenu.classList.toggle('settings-display');
+})
+
+
+ // change background --------------------------------------------------------------
+
+
+
+    
+
 })()

@@ -1,7 +1,18 @@
+@font-face {
+  font-family: HappyNewYear;
+  src: url(/fonts/A.ChausettesdeNoel.Alen.Rus.woff);
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+a {
+  text-decoration: none;
+  font-family: HappyNewYear;
+  color: white;
 }
 
 body {
@@ -9,6 +20,9 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   height: 100%;
+  font-family: HappyNewYear;
+  color: white;
+
 }
 
 .bg-container {
@@ -17,13 +31,71 @@ body {
   background: rgba(110, 110, 110, 0.3);
 }
 
+.container {
+  max-width: 1920px;
+  padding-bottom: 100px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.settings-button {
+  font-size: 70px;
+  cursor: pointer;
+  transition: 0.5s all;
+  width: 400px;
+  height: 90px;
+  padding-top: 15px;
+  padding-left: 20px;
+}
+
+.settings-button:hover {
+  font-size: 75px;
+}
+
+.settings {
+  background: white;
+  text-align: center;
+  width: 1300px;
+  min-height: 700px;
+  margin: 0 auto;
+  border-radius: 4%;
+  position: fixed;
+  z-index: 2;
+  top: 16%;
+  left: 15%;
+}
+
+.settings-display {
+  display: none;
+}
+
+
+
+.settings li {
+  height: 120px;
+}
+
+.settings a {
+  font-size: 70px;
+  letter-spacing: -5px;
+  line-height: 1.6em;
+  color: #B22222;
+  transition: 0.5s all;
+}
+
+.settings a:hover {
+  font-size: 75px;
+}
+
+
+
 ul {
   text-decoration: none;
   list-style: none;
   padding-left: 0;
 }
 
-li {
+.slider li {
   width: 900px;
   height: 600px;
   margin: 0;
@@ -45,27 +117,34 @@ img {
   -webkit-animation-name: fade;
   -webkit-animation-duration: 1.5s;
 }
+
 @-webkit-keyframes fade {
-  from {opacity:.2}
-  to {opacity: 1}
+  from {
+    opacity: .2
+  }
+
+  to {
+    opacity: 1
+  }
 }
 
-@keyframes fade{
-  from {opacity: .2}
-  to {opacity: 1}
+@keyframes fade {
+  from {
+    opacity: .2
+  }
+
+  to {
+    opacity: 1
+  }
 }
 
-.container {
-  max-width: 1920px;
-  padding-bottom: 100px;
-  padding-top: 150px;
-  margin: 0 auto;
-}
+
 
 .slider_wrapper {
   width: 900px;
   margin: 0 auto;
   position: relative;
+  padding-top: 70px;
 
 }
 
@@ -76,7 +155,7 @@ img {
 }
 
 .big-photo {
-  height: 550px; 
+  height: 550px;
   display: none;
 }
 
@@ -94,7 +173,7 @@ img {
   cursor: pointer;
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
-  
+
 }
 
 .prev:hover {
