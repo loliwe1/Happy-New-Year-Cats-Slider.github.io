@@ -12,7 +12,8 @@
         next = document.querySelector('.next'),
         settingsButton = document.querySelector('.settings-button'),
         settingsMenu = document.querySelector('.settings'),
-        changeBg = document.querySelector('.change-bg');
+        changeBg = document.querySelector('.change-bg'),
+        resetSettings = document.querySelector('.reset-settings')
     let slideIndex = 0;
 
 
@@ -24,15 +25,15 @@
     } else if (sliderNumber === 2) {
         showSlides(slideIndex);
         setInterval(nextSlide, 5000);
-    } else if (sliderNumber === 3){
+    } else if (sliderNumber === 3) {
         showSliderGalery();
-    }else {
+    } else {
         showSlidesCarousel(slideIndex);
     }
 
     //  // first slider option -----------------------------------------------------   
 
-    
+
 
     function togglesDot() {
         sliderDots.addEventListener('click', event => {
@@ -82,7 +83,7 @@
             return false
         };
         togglesDot();
-        
+
 
     };
 
@@ -124,7 +125,7 @@
 
     }
 
-  
+
 
     function showSlidesCarousel(slideIndex) {
         let coords = slidItem[0].getBoundingClientRect();
@@ -143,7 +144,7 @@
             return false
         };
         togglesDotCarousel();
-        
+
 
     }
 
@@ -189,22 +190,50 @@
 
 
     // change background --------------------------------------------------------------
+    function bgSettings() {
+        document.body.style.background = `url(${localStorage.getItem('bg')})`;
+        document.body.style.backgroundSize = 'cover';
+        document.body.style.backgroundRepeat = 'no-repeat';
+    }
 
-    changeBg.addEventListener('click', changedBG);
 
     function changedBG() {
         const regExp = /(http[s]*)[:][/][/].+[.]((jpeg)|(jpg)|(png)|(WebP))/i;
-        let bgUrl = prompt('Введите адрес картинки для вашего фона в формате - jpeg, jpg, png, WebP', 'https://www.2do2go.ru/uploads/14608a76c05cb5f6b377ca293498b51c.jpg');
-        if(regExp.test(bgUrl)) {
-            document.body.style.background = `url(${bgUrl})`;
-            document.body.style.backgroundSize = 'cover';
-            document.body.style.backgroundRepeat = 'no-repeat';
+        let bgUrl = prompt('Введите адрес картинки для вашего фона в формате - jpeg, jpg, png, WebP', 'http://wallpaperengine.info/wp-content/uploads/2018/03/1318929098_preview_Desktop-03.03.2018-06.14.32.01_1000.jpg');
+        if (regExp.test(bgUrl)) {
+            localStorage.setItem('bg', bgUrl);
+            bgSettings();
+
             settingsMenu.classList.toggle('settings-display');
 
-        }else {
+        } else {
             alert('Введен неверный адрес картинки, попробуйте еще раз');
         }
     }
 
+
+    function getBG() {
+        if (localStorage.getItem('bg')) {
+            bgSettings()
+        }
+
+    }
+
+    getBG();
+    changeBg.addEventListener('click', changedBG);
+
+
+//reset Settings ----------------------------------------------------------------------
+
+function resetAllSettings() {
+    let answer = confirm('Вы уверены, что хотите сбросить настройки?');
+
+    if(answer) {
+        localStorage.clear();
+        alert('Настройки сброшены, пожалуйста перезагрузите страницу');
+    } 
+}
+
+resetSettings.addEventListener('click', resetAllSettings);
 
 })()
