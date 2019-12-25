@@ -164,10 +164,10 @@ img {
 
 .prev {
   position: absolute;
-  top: 0;
+  top: 70px;
   left: 0;
   width: 70px;
-  height: 96.2%;
+  height: 85.5%;
   background: rgba(0, 0, 0, 0);
   transition: 0.3s;
   cursor: pointer;
@@ -200,10 +200,10 @@ img {
 
 .next {
   position: absolute;
-  top: 0;
+  top: 70px;
   left: 831px;
   width: 70px;
-  height: 96.2%;
+  height: 85.5%;
   background: rgba(0, 0, 0, 0);
   transition: 0.3s;
   cursor: pointer;
@@ -236,6 +236,7 @@ img {
 .slider_dots {
   display: flex;
   justify-content: center;
+  padding-top: 10px; 
 }
 
 .dot {

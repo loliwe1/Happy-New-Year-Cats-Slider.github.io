@@ -127,7 +127,7 @@
         dotItem.forEach(dot => dot.classList.remove('dot-active'));
         dotItem[slideIndex].classList.add('dot-active');
 
-        slider.style.marginLeft = `${-coords.width * slideIndex - (4 * slideIndex)}px`;
+        slider.style.marginLeft = `${-coords.width * slideIndex - (8 * slideIndex)}px`;
 
         prev.addEventListener('click', prevSlideCarousel);
         next.addEventListener('click', nextSlideCarousel);
