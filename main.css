@@ -63,8 +63,8 @@ body {
   border-radius: 4%;
   position: fixed;
   z-index: 2;
-  top: 16%;
-  left: 15%;
+  top: 5%;
+  left: 20%;
 }
 
 .settings-display {
@@ -260,3 +260,61 @@ img {
 .dot:hover {
   background: rgba(0, 0, 0, 0.4);
 }
+
+@media (max-width: 1600px){
+  .settings {
+    top: 7%;
+    left: 10%;
+  }
+
+  .container {
+    max-width: 100%;
+    width: 1599px;
+  }
+}
+
+@media (max-width: 1485px){
+  .settings {
+    top: 7%;
+    left: 5%;
+  }
+
+  .container {
+    width: 100%;
+  }
+}
+
+@media (max-width: 1370px){
+  .settings {
+    top: 7%;
+    left: 2%;
+    width: 100%;
+  }
+}
+
+@media (max-width: 1200px){
+  .settings {
+    top: 10%;
+    left: 0;
+    width: 100%;
+    height: 300px;
+  }
+
+  .settings a {
+    font-size: 55px;
+    letter-spacing: -6px;
+    line-height: 1.5em;
+    color: #B22222;
+    transition: 0.5s all;
+  }
+
+  .settings li {
+    height: 70px;
+  }
+}
+
+@media (max-width: 901px) {
+  
+
+}
+

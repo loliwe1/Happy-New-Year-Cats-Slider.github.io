@@ -20,15 +20,19 @@
 
     if (sliderNumber === 1) {
         showSlidesCarousel(slideIndex);
+        setInterval(nextSlideCarousel, 5000);
     } else if (sliderNumber === 2) {
         showSlides(slideIndex);
-    } else {
+        setInterval(nextSlide, 5000);
+    } else if (sliderNumber === 3){
         showSliderGalery();
+    }else {
+        showSlidesCarousel(slideIndex);
     }
 
     //  // first slider option -----------------------------------------------------   
 
-    // setInterval(nextSlide, 3000);
+    
 
     function togglesDot() {
         sliderDots.addEventListener('click', event => {
@@ -78,6 +82,7 @@
             return false
         };
         togglesDot();
+        
 
     };
 
@@ -119,6 +124,8 @@
 
     }
 
+  
+
     function showSlidesCarousel(slideIndex) {
         let coords = slidItem[0].getBoundingClientRect();
         slider.style.width = '12000px';
@@ -136,6 +143,7 @@
             return false
         };
         togglesDotCarousel();
+        
 
     }
 
@@ -186,7 +194,7 @@
 
     function changedBG() {
         const regExp = /(http[s]*)[:][/][/].+[.]((jpeg)|(jpg)|(png)|(WebP))/i;
-        let bgUrl = prompt('Введите адрес картинки для вашего фона в формате - jpeg, jpg, png, WebP', 'https://img-fotki.yandex.ru/get/15595/238977675.60/0_102743_f480a2dc_orig.jpg');
+        let bgUrl = prompt('Введите адрес картинки для вашего фона в формате - jpeg, jpg, png, WebP', 'https://www.2do2go.ru/uploads/14608a76c05cb5f6b377ca293498b51c.jpg');
         if(regExp.test(bgUrl)) {
             document.body.style.background = `url(${bgUrl})`;
             document.body.style.backgroundSize = 'cover';
@@ -196,8 +204,6 @@
         }else {
             alert('Введен неверный адрес картинки, попробуйте еще раз');
         }
-        
-
     }
 
 
