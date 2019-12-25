@@ -66,16 +66,21 @@ img {
   width: 900px;
   margin: 0 auto;
   position: relative;
-  overflow: hidden;
 
 }
 
 .slider {
   width: 100%;
   position: relative;
-  overflow: hidden;
   transition: 1.5s margin;
 }
+
+.big-photo {
+  height: 550px; 
+  display: none;
+}
+
+
 
 
 .prev {
