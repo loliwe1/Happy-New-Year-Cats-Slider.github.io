@@ -97,6 +97,10 @@ ul {
   padding-left: 0;
 }
 
+.slider ul {
+  font-size: 0;
+}
+
 .slider li {
   width: 900px;
   height: 600px;
@@ -157,8 +161,10 @@ img {
 }
 
 .big-photo {
+  width: 900px;
   height: 550px;
   display: none;
+  margin: 0 auto;
 }
 
 
@@ -175,6 +181,7 @@ img {
   cursor: pointer;
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
+  z-index: 9999;
 
 }
 
@@ -184,6 +191,20 @@ img {
 
 .prev:hover .arrow_left {
   opacity: 1;
+}
+
+.min-prev {
+  top: 15px;
+  left: -15px;
+  width: 50px;
+  height: 120px;
+  background: rgba(0, 0, 0, 0);
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.min-prev:hover {
+  background: rgba(0, 0, 0, 0);
 }
 
 .arrow_left {
@@ -199,6 +220,9 @@ img {
   transition: 1s;
 }
 
+.arrow_left-min {
+  top: 40%;
+}
 
 .next {
   position: absolute;
@@ -211,6 +235,16 @@ img {
   cursor: pointer;
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
+}
+
+.min-next {
+  top: 15px;
+  left: 495px;
+  width: 50px;
+  height: 120px;
+  background: rgba(0, 0, 0, 0);
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
 .arrow_right {
@@ -227,8 +261,16 @@ img {
 
 }
 
+.arrow_right-min {
+  top: 40%;
+}
+
 .next:hover {
   background: rgba(0, 0, 0, 0.4);
+}
+
+.min-next:hover {
+  background: rgba(0, 0, 0, 0);
 }
 
 .next:hover .arrow_right {
@@ -312,9 +354,3 @@ img {
     height: 70px;
   }
 }
-
-@media (max-width: 901px) {
-  
-
-}
-

@@ -21,7 +21,7 @@
     let sliderNumber = +prompt('Выберите номер анимации слайдера(1- карусель, 2- исчезновение, 3- галерея)', 1);
     updateSlider();
     startSlider();
-    autoSlide();
+    // autoSlide();
 
     function startSlider() {
         if (sliderNumber === 1) {
@@ -163,7 +163,7 @@
         dotItem.forEach(dot => dot.classList.remove('dot-active'));
         dotItem[slideIndex].classList.add('dot-active');
 
-        slider.style.marginLeft = `${-coords.width * slideIndex - (8 * slideIndex)}px`;
+        slider.style.marginLeft = `${-coords.width * slideIndex }px`;
 
         prev.addEventListener('click', prevSlideCarousel);
         next.addEventListener('click', nextSlideCarousel);
@@ -176,16 +176,35 @@
     }
 
     // third slider option -----------------------------------------------------  
-    function galeryStyle() {
+    function createStyleBigSlid() {
         bigPhoto.style.display = 'block';
+
+
+    };
+
+    function createStyleSlider() {
         slider.style.width = '12000px';
         slider.style.paddingTop = '10px';
         sliderWrapper.style.overflow = 'hidden';
-        prev.style.display = 'none';
-        next.style.display = 'none';
+        sliderWrapper.style.width = '540px';
+        sliderWrapper.style.paddingTop = '10px';
+    }
+
+    function sliderArrowsStyle() {
+        prev.classList.add('min-prev');
+        next.classList.add('min-next');
+        prev.querySelector('.arrow_left').classList.add('arrow_left-min');
+        next.querySelector('.arrow_right').classList.add('arrow_right-min');
+    }
+
+    function galeryStyle() {
+        createStyleSlider();
+        createStyleBigSlid();
+        sliderArrowsStyle();
 
         slidItem.forEach(slide => {
             slide.style.display = 'inline-block';
+            slide.style.marginRight = '5px';
             slide.style.width = '175px';
             slide.style.height = '120px';
             slide.style.cursor = 'pointer';
@@ -193,15 +212,25 @@
         });
     }
 
-    function activeGaleryItem() {
-        slider.addEventListener('click', event => {
-            let target = event.target;
-
-            if (target.closest('.slider-item')) {
-                bigPhoto.innerHTML = `<img src="${target.src}" alt="slider-img">`;
-            }
-
+    function activeGaleryItem(slideIndex) {
+        let coords = slidItem[0].getBoundingClientRect();
+        slideIndex = 1;
+        
+        next.addEventListener('click', () => {
+            slideIndex++;
+            slider.style.marginLeft = `-${coords.width * slideIndex + slideIndex*5}px`
         });
+
+        prev.addEventListener('click', () => {
+            slideIndex--;
+            slider.style.marginLeft = `-${coords.width * slideIndex + slideIndex*5}px`
+        });
+
+
+
+
+
+        // bigPhoto.innerHTML = `<img src="${target.src}" alt="slider-img">`;
     }
 
     function showSliderGalery() {
@@ -288,6 +317,7 @@
         li.classList.add('slider-item');
         li.classList.add('fade');
         li.style.display = 'none';
+        li.style.marginRight = '5px';
         li.innerHTML = `<img src="${slideUrl}" alt="slider-img">`;
         sliderUl.append(li);
 
