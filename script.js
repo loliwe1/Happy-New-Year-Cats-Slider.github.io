@@ -17,26 +17,51 @@
         resetSettings = document.querySelector('.reset-settings'),
         newSlide = document.querySelector('.new-slide')
     let slideIndex = 0;
-    console.log(slider);
-
 
     let sliderNumber = +prompt('Выберите номер анимации слайдера(1- карусель, 2- исчезновение, 3- галерея)', 1);
+    updateSlider();
+    startSlider();
+    autoSlide();
 
-    if (sliderNumber === 1) {
-        showSlidesCarousel(slideIndex);
-        setInterval(nextSlideCarousel, 5000);
-    } else if (sliderNumber === 2) {
-        showSlides(slideIndex);
-        setInterval(nextSlide, 5000);
-    } else if (sliderNumber === 3) {
-        showSliderGalery();
-    } else {
-        showSlidesCarousel(slideIndex);
+    function startSlider() {
+        if (sliderNumber === 1) {
+            showSlidesCarousel(slideIndex);
+        } else if (sliderNumber === 2) {
+            showSlides(slideIndex);
+        } else if (sliderNumber === 3) {
+            showSliderGalery();
+        } else {
+            showSlidesCarousel(slideIndex);
+        }
     }
 
-    //  // first slider option -----------------------------------------------------   
+    function autoSlide() {
+        if (sliderNumber === 1) {
+            setInterval(nextSlideCarousel, 5000);
+        } else if (sliderNumber === 2) {
+            setInterval(nextSlide, 5000);
+        }
+    }
 
+    function updateSlider() {
+        if (localStorage.getItem('SaveSlide')) {
+            let arr = JSON.parse(localStorage.getItem('SaveSlide'));
+            arr.forEach((value) => {
+                let li = document.createElement('li');
+                let div = document.createElement('div');
+                div.classList.add('dot');
+                sliderDots.append(div);
+                li.classList.add('slider-item');
+                li.classList.add('fade');
+                li.style.display = 'none';
+                li.innerHTML = `<img src="${value}" alt="slider-img">`;
+                sliderUl.append(li);
+            });
+            refreshPage();
+        } else return;
+    }
 
+    // first slider option -----------------------------------------------------   
 
     function togglesDot() {
         sliderDots.addEventListener('click', event => {
@@ -54,7 +79,7 @@
     }
 
     function nextSlide() {
-        if (slideIndex === slidItem.length -1) {
+        if (slideIndex === slidItem.length - 1) {
             slideIndex = 0;
             showSlides(slideIndex)
         } else {
@@ -76,7 +101,6 @@
     function showSlides(slideIndex) {
         slidItem.forEach(slide => {
             slide.style.display = 'none';
-            console.log(slide);
         })
         dotItem.forEach(dot => dot.classList.remove('dot-active'));
 
@@ -86,14 +110,14 @@
         prev.addEventListener('click', prevSlide);
         next.addEventListener('click', nextSlide);
         document.documentElement.onmousedown = () => {
-            return false
+            return false;
         };
         togglesDot();
 
 
     };
 
-    // // second slider option -----------------------------------------------------   
+    // second slider option -----------------------------------------------------   
 
     function togglesDotCarousel() {
         sliderDots.addEventListener('click', event => {
@@ -109,7 +133,6 @@
             }
         });
     }
-
 
     function nextSlideCarousel() {
         if (slideIndex === slidItem.length - 1) {
@@ -130,8 +153,6 @@
         showSlidesCarousel(slideIndex)
 
     }
-
-
 
     function showSlidesCarousel(slideIndex) {
         let coords = slidItem[0].getBoundingClientRect();
@@ -190,10 +211,11 @@
 
     //general menu settings ------------------------------------------------------------
 
-    settingsButton.addEventListener('click', () => {
-        settingsMenu.classList.toggle('settings-display');
-    })
+    settingsButton.addEventListener('click', showHideMenu);
 
+    function showHideMenu() {
+        settingsMenu.classList.toggle('settings-display');
+    }
 
     // change background --------------------------------------------------------------
     function bgSettings() {
@@ -202,25 +224,22 @@
         document.body.style.backgroundRepeat = 'no-repeat';
     }
 
-
     function changedBG() {
         const regExp = /(http[s]*)[:][/][/].+[.]((jpeg)|(jpg)|(png)|(WebP))/i;
         let bgUrl = prompt('Введите адрес картинки для вашего фона в формате - jpeg, jpg, png, WebP', 'http://wallpaperengine.info/wp-content/uploads/2018/03/1318929098_preview_Desktop-03.03.2018-06.14.32.01_1000.jpg');
         if (regExp.test(bgUrl)) {
             localStorage.setItem('bg', bgUrl);
             bgSettings();
-
-            settingsMenu.classList.toggle('settings-display');
+            showHideMenu();
 
         } else {
             alert('Введен неверный адрес картинки, попробуйте еще раз');
         }
     }
 
-
     function getBG() {
         if (localStorage.getItem('bg')) {
-            bgSettings()
+            bgSettings();
         }
 
     }
@@ -228,42 +247,74 @@
     getBG();
     changeBg.addEventListener('click', changedBG);
 
+    //reset Settings ----------------------------------------------------------------------
 
-//reset Settings ----------------------------------------------------------------------
+    function resetAllSettings() {
+        let answer = confirm('Вы уверены, что хотите сбросить настройки?');
 
-function resetAllSettings() {
-    let answer = confirm('Вы уверены, что хотите сбросить настройки?');
+        if (answer) {
+            localStorage.clear();
+            alert('Настройки сброшены, пожалуйста перезагрузите страницу');
+            showHideMenu();
+        }
+    }
 
-    if(answer) {
-        localStorage.clear();
-        alert('Настройки сброшены, пожалуйста перезагрузите страницу');
-    } 
-}
-
-resetSettings.addEventListener('click', resetAllSettings);
+    resetSettings.addEventListener('click', resetAllSettings);
 
 
-// new Slide -----------------------------------------------------------------------------
-newSlide.addEventListener('click', addNewSlide );
+    // new Slide -----------------------------------------------------------------------------
 
-function addNewSlide() {
-    let slideUrl = prompt('Введите адрес картинки для нового слайда - jpeg, jpg, png, WebP', 'https://cdnimg.rg.ru/img/content/169/87/52/Kot_shredingera_d_850.jpg');
-    let li = document.createElement('li');
-    let div = document.createElement('div');
-    div.classList.add('dot');
-    sliderDots.append(div);
+    function saveNewSlide(slideUrl) {
+        let newSlide = [];
 
-    li.classList.add('slider-item');
-    li.classList.add('fade');
-    li.style.display = 'none';
-    li.innerHTML = `<img src="${slideUrl}" alt="slider-img">`;
-    sliderUl.append(li);
-    slider = document.querySelector('.slider');
-    slidItem = document.querySelectorAll('.slider-item');
-    dotItem = document.querySelectorAll('.dot');
-    slideIndex = 0;
-    showSlides(slideIndex);
-      
-}
+        if (localStorage.getItem('SaveSlide')) {
+            newSlide = JSON.parse(localStorage.getItem('SaveSlide'));
+            newSlide.push(slideUrl)
+            localStorage.setItem('SaveSlide', JSON.stringify(newSlide));
 
-})()
+        } else {
+            newSlide.push(slideUrl)
+            localStorage.setItem('SaveSlide', JSON.stringify(newSlide));
+        }
+
+        console.log(JSON.parse(localStorage.getItem('SaveSlide')));
+    }
+
+    function createSlide(slideUrl) {
+        let li = document.createElement('li');
+        let div = document.createElement('div');
+        div.classList.add('dot');
+        sliderDots.append(div);
+        li.classList.add('slider-item');
+        li.classList.add('fade');
+        li.style.display = 'none';
+        li.innerHTML = `<img src="${slideUrl}" alt="slider-img">`;
+        sliderUl.append(li);
+
+        saveNewSlide(slideUrl);
+
+    }
+
+    function refreshPage() {
+        slider = document.querySelector('.slider');
+        slidItem = document.querySelectorAll('.slider-item');
+        dotItem = document.querySelectorAll('.dot');
+        slideIndex = 0;
+        startSlider();
+    };
+
+    function addNewSlide() {
+        const regExp = /(http[s]*)[:][/][/].+[.]((jpeg)|(jpg)|(png)|(WebP))/i;
+        let slideUrl = prompt('Введите адрес картинки для нового слайда - jpeg, jpg, png, WebP', 'https://cdnimg.rg.ru/img/content/169/87/52/Kot_shredingera_d_850.jpg');
+        if (regExp.test(slideUrl)) {
+            alert('Слайд добавлен!');
+            createSlide(slideUrl);
+            refreshPage();
+            showHideMenu();
+        } else {
+            alert('Что-то пошло не так! Повторите попытку позже.')
+        }
+    }
+    newSlide.addEventListener('click', addNewSlide);
+
+})();
