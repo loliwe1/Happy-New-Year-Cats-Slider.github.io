@@ -18,10 +18,10 @@
         newSlide = document.querySelector('.new-slide')
     let slideIndex = 0;
 
-    let sliderNumber = +prompt('Выберите номер анимации слайдера(1- карусель, 2- исчезновение, 3- галерея)', 1);
+    let sliderNumber = +prompt('Выберите номер анимации слайдера(1- карусель, 2- исчезновение, 3- галерея, 4 - бесконечная карусель)', 4);
     updateSlider();
     startSlider();
-    // autoSlide();
+    autoSlide();
 
     function startSlider() {
         if (sliderNumber === 1) {
@@ -31,7 +31,7 @@
         } else if (sliderNumber === 3) {
             showSliderGalery();
         } else {
-            showSlidesCarousel(slideIndex);
+            createFirstandLastSlide(slideIndex);
         }
     }
 
@@ -120,6 +120,7 @@
     // second slider option -----------------------------------------------------   
 
     function togglesDotCarousel() {
+
         sliderDots.addEventListener('click', event => {
             let target = event.target;
 
@@ -155,6 +156,7 @@
     }
 
     function showSlidesCarousel(slideIndex) {
+
         let coords = slidItem[0].getBoundingClientRect();
         slider.style.width = '12000px';
         sliderWrapper.style.overflow = 'hidden';
@@ -217,13 +219,30 @@
         slideIndex = 1;
         
         next.addEventListener('click', () => {
-            slideIndex++;
-            slider.style.marginLeft = `-${coords.width * slideIndex + slideIndex*5}px`
+            if(slideIndex > slidItem.length - 3) {
+                slider.style.marginLeft = '0';
+                slideIndex = 1;
+            }else {
+                slider.style.marginLeft = `-${coords.width * slideIndex + slideIndex*5}px`
+                slideIndex++;
+            };
+
+            console.log(slideIndex);
+
         });
 
         prev.addEventListener('click', () => {
             slideIndex--;
-            slider.style.marginLeft = `-${coords.width * slideIndex + slideIndex*5}px`
+            if(slideIndex === 0) {
+                slideIndex = slidItem.length - 3;
+                slider.style.marginLeft = `-${coords.width * slideIndex + slideIndex*5}px`;
+            }else {
+
+                slider.style.marginLeft = `-${coords.width * slideIndex + slideIndex*5}px`
+                slideIndex--;
+            }
+            console.log(slideIndex);
+
         });
 
 
@@ -236,6 +255,44 @@
     function showSliderGalery() {
         galeryStyle();
         activeGaleryItem();
+    }
+
+    //endless slider(4)-------------------------------------------------------------------
+
+    function createFirstandLastSlide(slideIndex) {
+        slider.style.width = '12000px';
+        sliderWrapper.style.overflow = 'hidden';
+
+        let firstSlide = document.createElement('li');
+        firstSlide.innerHTML = slidItem[0].innerHTML;
+        firstSlide.style.display = 'inline-block';
+        firstSlide.classList.add('slider-item');
+        firstSlide.classList.add('first-slide');
+        sliderUl.append(firstSlide);
+
+        slider = document.querySelector('.slider');
+        sliderUl = slider.querySelector('ul');
+        slidItem = document.querySelectorAll('.slider-item');
+
+        slidItem.forEach(slide => slide.style.display = 'inline-block');
+
+        next.addEventListener('click', () => {
+            if(slideIndex >= slidItem.length -1) return;
+            slideIndex++;
+            slider.style.transition = '0.5s all';
+            slider.style.transform = `translateX(-${(slidItem[0].clientWidth * slideIndex)}px)`;
+
+            console.log(slideIndex);
+        })
+
+        slider.addEventListener('transitionend', () => {
+            if(slidItem[slideIndex].classList.contains('first-slide')) {
+                slider.style.transition = 'none';
+                slideIndex = 0;
+                slider.style.transform = `translateX(-${(slidItem[0].clientWidth * slideIndex)}px)`
+            }
+        })
+        
     }
 
     //general menu settings ------------------------------------------------------------
@@ -255,7 +312,7 @@
 
     function changedBG() {
         const regExp = /(http[s]*)[:][/][/].+[.]((jpeg)|(jpg)|(png)|(WebP))/i;
-        let bgUrl = prompt('Введите адрес картинки для вашего фона в формате - jpeg, jpg, png, WebP', 'http://wallpaperengine.info/wp-content/uploads/2018/03/1318929098_preview_Desktop-03.03.2018-06.14.32.01_1000.jpg');
+        let bgUrl = prompt('Введите адрес картинки для вашего фона в формате - jpeg, jpg, png, WebP', 'http://wallpapers-image.ru/1920x1080/new-year-wallpaper/wallpapers/new-year-wallpapers-1920x1080-00019.jpg');
         if (regExp.test(bgUrl)) {
             localStorage.setItem('bg', bgUrl);
             bgSettings();
