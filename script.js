@@ -260,6 +260,10 @@
     //endless slider(4)-------------------------------------------------------------------
 
     function createFirstandLastSlide(slideIndex) {
+        slideIndex = 1;
+        slider.style.transition = 'none';
+        slider.style.transform = `translateX(-${(slidItem[0].clientWidth * slideIndex)}px)`;
+
         slider.style.width = '12000px';
         sliderWrapper.style.overflow = 'hidden';
 
@@ -270,9 +274,18 @@
         firstSlide.classList.add('first-slide');
         sliderUl.append(firstSlide);
 
+        let lastSlider = document.createElement('li');
+        lastSlider.innerHTML = slidItem[slidItem.length-1].innerHTML;
+        lastSlider.style.display = 'inline-block';
+        lastSlider.classList.add('slider-item');
+        lastSlider.classList.add('last-slide');
+        sliderUl.prepend(lastSlider);
+
         slider = document.querySelector('.slider');
         sliderUl = slider.querySelector('ul');
         slidItem = document.querySelectorAll('.slider-item');
+
+        console.log(slidItem);
 
         slidItem.forEach(slide => slide.style.display = 'inline-block');
 
@@ -285,10 +298,25 @@
             console.log(slideIndex);
         })
 
+        prev.addEventListener('click', () => {
+            if(slideIndex <= 0) return;
+            slideIndex--;
+            slider.style.transition = '0.5s all';
+            slider.style.transform = `translateX(-${(slidItem[0].clientWidth * slideIndex)}px)`;
+
+            console.log(slideIndex);
+        })
+
         slider.addEventListener('transitionend', () => {
             if(slidItem[slideIndex].classList.contains('first-slide')) {
                 slider.style.transition = 'none';
-                slideIndex = 0;
+                slideIndex = 1;
+                slider.style.transform = `translateX(-${(slidItem[0].clientWidth * slideIndex)}px)`
+            }
+
+            if(slidItem[slideIndex].classList.contains('last-slide')) {
+                slider.style.transition = 'none';
+                slideIndex = slidItem.length-2;
                 slider.style.transform = `translateX(-${(slidItem[0].clientWidth * slideIndex)}px)`
             }
         })
