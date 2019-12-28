@@ -307,9 +307,20 @@
         dotItem.forEach(dot => {
             dot.classList.remove('dot-active');
         });
-        dotItem[slideIndex - 1].classList.add('dot-active');
+
+        if(slideIndex <= 1) {
+            dotItem[0].classList.add('dot-active');
+        }else if(slideIndex >= dotItem.length) {
+            dotItem[dotItem.length -1].classList.add('dot-active');
+        }else {
+            dotItem[slideIndex - 1].classList.add('dot-active');
+        }
+        
     }
 
+    // function togglesDotSliderFour() {
+       
+    // }
 
     function showEndlessCarouselSlider(slideIndex) {
         updateSliderFour();
@@ -319,6 +330,7 @@
         createLastSlide();
         rewriteDOM();
         activeDot(slideIndex);
+        // togglesDotSliderFour();
 
         next.addEventListener('click', () => {
             if (slideIndex >= slidItem.length - 1) return;
@@ -351,7 +363,22 @@
                 slideIndex = slidItem.length - 2;
                 activeDot(slideIndex);
                 switchSlide(slideIndex);
-                
+
+            }
+        });
+
+        sliderDots.addEventListener('click', event => {
+            let target = event.target;
+
+            if (target.classList.contains('dot')) {
+                for (let i = 0; i < dotItem.length; i++) {
+                    if (target === dotItem[i]) {
+                        slideIndex = i+1;
+                        slideTransition();
+                        switchSlide(slideIndex);
+                        activeDot(slideIndex);
+                    }
+                }
             }
         });
 
