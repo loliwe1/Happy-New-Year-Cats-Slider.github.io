@@ -303,6 +303,13 @@
         slider.style.transition = '0.5s all';
     }
 
+    function activeDot(slideIndex) {
+        dotItem.forEach(dot => {
+            dot.classList.remove('dot-active');
+        });
+        dotItem[slideIndex - 1].classList.add('dot-active');
+    }
+
 
     function showEndlessCarouselSlider(slideIndex) {
         updateSliderFour();
@@ -311,12 +318,14 @@
         createFirstSlide();
         createLastSlide();
         rewriteDOM();
+        activeDot(slideIndex);
 
         next.addEventListener('click', () => {
             if (slideIndex >= slidItem.length - 1) return;
             slideIndex++;
             slideTransition();
             switchSlide(slideIndex);
+            activeDot(slideIndex);
 
         });
 
@@ -325,6 +334,7 @@
             slideIndex--;
             slideTransition();
             switchSlide(slideIndex);
+            activeDot(slideIndex);
 
         });
 
@@ -332,13 +342,16 @@
             if (slidItem[slideIndex].classList.contains('first-slide')) {
                 slider.style.transition = 'none';
                 slideIndex = 1;
+                activeDot(slideIndex);
                 switchSlide(slideIndex);
             }
 
             if (slidItem[slideIndex].classList.contains('last-slide')) {
                 slider.style.transition = 'none';
                 slideIndex = slidItem.length - 2;
+                activeDot(slideIndex);
                 switchSlide(slideIndex);
+                
             }
         });
 
