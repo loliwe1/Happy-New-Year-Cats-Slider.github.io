@@ -22,7 +22,7 @@
     let sliderNumber = +prompt('Выберите номер анимации слайдера(1- карусель, 2- исчезновение, 3- галерея, 4 - бесконечная карусель)', 4);
     updateSlider();
     startSlider();
-    // autoSlide();
+    autoSlide();
 
     function startSlider() {
         if (sliderNumber === 1) {
@@ -61,6 +61,16 @@
             refreshPage();
         } else return;
     }
+
+
+    function refreshPage() {
+        slider = document.querySelector('.slider');
+        slidItem = document.querySelectorAll('.slider-item');
+        dotItem = document.querySelectorAll('.dot');
+        slideIndex = 0;
+        startSlider();
+    };
+
 
     // first slider option -----------------------------------------------------   
 
@@ -276,11 +286,11 @@
     function createFirstSlide() {
 
         let firstSlide = document.createElement('li');
-            firstSlide.innerHTML = slidItem[0].innerHTML;
-            firstSlide.style.display = 'inline-block';
-            firstSlide.classList.add('slider-item');
-            firstSlide.classList.add('first-slide');
-            sliderUl.append(firstSlide);
+        firstSlide.innerHTML = slidItem[0].innerHTML;
+        firstSlide.style.display = 'inline-block';
+        firstSlide.classList.add('slider-item');
+        firstSlide.classList.add('first-slide');
+        sliderUl.append(firstSlide);
     }
 
     function createLastSlide() {
@@ -470,18 +480,8 @@
         sliderUl.append(li);
 
         saveNewSlide(slideUrl);
-
-
-
     }
 
-    function refreshPage() {
-        slider = document.querySelector('.slider');
-        slidItem = document.querySelectorAll('.slider-item');
-        dotItem = document.querySelectorAll('.dot');
-        slideIndex = 0;
-        startSlider();
-    };
 
     function addNewSlide() {
         const regExp = /(http[s]*)[:][/][/].+[.]((jpeg)|(jpg)|(png)|(WebP))/i;
@@ -509,31 +509,30 @@
 
         let slideNumber = +prompt('Введите номер слайда', 1);
         if (sliderNumber === 4) {
-            if (typeof slideNumber === 'number' && slideNumber >= 1 && slideNumber <= slidItem.length-2) {
+            if (typeof slideNumber === 'number' && slideNumber >= 1 && slideNumber <= slidItem.length - 2) {
                 slidItem[slideNumber].remove();
-                dotItem[slideNumber-1].remove();
+                dotItem[slideNumber - 1].remove();
                 refreshPage();
-                    showEndlessCarouselSlider(slideIndex);
-                    alert(`Слайд № ${slideNumber} удален!`);
-            }else {
+                showEndlessCarouselSlider(slideIndex);
+                alert(`Слайд № ${slideNumber} удален!`);
+            } else {
                 alert('Введено некорректное значение!');
             }
 
-        }else if(sliderNumber >= 1 && sliderNumber < 4 ) {
+        } else if (sliderNumber >= 1 && sliderNumber < 4) {
 
-            slideNumber-= 1;
+            slideNumber -= 1;
 
             if (typeof slideNumber === 'number' && slideNumber >= 0 && slideNumber < slidItem.length) {
                 slidItem[slideNumber].remove();
                 dotItem[slideNumber].remove();
                 refreshPage();
                 alert(`Слайд № ${slideNumber + 1} удален!`);
-            }else {
+            } else {
                 alert('Введено некорректное значение!');
             }
 
-        }
-         else {
+        } else {
             alert('Введено некорректное значение!');
         }
 
