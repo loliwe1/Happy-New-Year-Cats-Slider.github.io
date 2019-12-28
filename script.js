@@ -30,7 +30,7 @@
             showSlides(slideIndex);
         } else if (sliderNumber === 3) {
             showSliderGalery();
-        } else {
+        } else if (sliderNumber === 4) {
             showEndlessCarouselSlider(slideIndex);
         }
     }
@@ -217,12 +217,12 @@
     function activeGaleryItem(slideIndex) {
         let coords = slidItem[0].getBoundingClientRect();
         slideIndex = 1;
-        
+
         next.addEventListener('click', () => {
-            if(slideIndex > slidItem.length - 3) {
+            if (slideIndex > slidItem.length - 3) {
                 slider.style.marginLeft = '0';
                 slideIndex = 1;
-            }else {
+            } else {
                 slider.style.marginLeft = `-${coords.width * slideIndex + slideIndex*5}px`
                 slideIndex++;
             };
@@ -231,11 +231,11 @@
 
         prev.addEventListener('click', () => {
             slideIndex--;
-            if(slideIndex === 0) {
+            if (slideIndex === 0) {
                 slideIndex = slidItem.length - 3;
                 slider.style.marginLeft = `-${coords.width * slideIndex + slideIndex*5}px`;
 
-            }else {
+            } else {
 
                 slider.style.marginLeft = `-${coords.width * slideIndex + slideIndex*5}px`
                 slideIndex--;
@@ -250,19 +250,15 @@
     }
 
     //endless carousel slider(4)-------------------------------------------------------------------
-    updateSliderFour();
     function updateSliderFour() {
         slidItem.forEach(value => {
-            if(value.classList.contains('first-slide') || value.classList.contains('last-slide')) {
+
+            if (value.classList.contains('first-slide') || value.classList.contains('last-slide')) {
                 value.remove();
             }
         });
-
         rewriteDOM();
-        showEndlessCarouselSlider(slideIndex);
-
     }
-
 
     function switchSlide(slideIndex) {
         slider.style.transform = `translateX(-${(slidItem[0].clientWidth * slideIndex)}px)`;
@@ -276,7 +272,6 @@
         sliderWrapper.style.overflow = 'hidden';
     }
 
-
     function createFirstSlide() {
 
         let firstSlide = document.createElement('li');
@@ -288,8 +283,9 @@
     }
 
     function createLastSlide() {
+
         let lastSlider = document.createElement('li');
-        lastSlider.innerHTML = slidItem[slidItem.length-1].innerHTML;
+        lastSlider.innerHTML = slidItem[slidItem.length - 1].innerHTML;
         lastSlider.style.display = 'inline-block';
         lastSlider.classList.add('slider-item');
         lastSlider.classList.add('last-slide');
@@ -309,6 +305,7 @@
 
 
     function showEndlessCarouselSlider(slideIndex) {
+        updateSliderFour();
         slideIndex = 1;
         startSliderStyle(slideIndex);
         createFirstSlide();
@@ -316,7 +313,7 @@
         rewriteDOM();
 
         next.addEventListener('click', () => {
-            if(slideIndex >= slidItem.length -1) return;
+            if (slideIndex >= slidItem.length - 1) return;
             slideIndex++;
             slideTransition();
             switchSlide(slideIndex);
@@ -324,7 +321,7 @@
         });
 
         prev.addEventListener('click', () => {
-            if(slideIndex <= 0) return;
+            if (slideIndex <= 0) return;
             slideIndex--;
             slideTransition();
             switchSlide(slideIndex);
@@ -332,19 +329,21 @@
         });
 
         slider.addEventListener('transitionend', () => {
-            if(slidItem[slideIndex].classList.contains('first-slide')) {
+            if (slidItem[slideIndex].classList.contains('first-slide')) {
                 slider.style.transition = 'none';
                 slideIndex = 1;
                 switchSlide(slideIndex);
             }
 
-            if(slidItem[slideIndex].classList.contains('last-slide')) {
+            if (slidItem[slideIndex].classList.contains('last-slide')) {
                 slider.style.transition = 'none';
-                slideIndex = slidItem.length-2;
+                slideIndex = slidItem.length - 2;
                 switchSlide(slideIndex);
             }
         });
-        
+
+        newSlide.addEventListener('click', updateSliderFour);
+
     }
 
     //general menu settings ------------------------------------------------------------
@@ -430,7 +429,7 @@
         sliderUl.append(li);
 
         saveNewSlide(slideUrl);
-        
+
 
 
     }
@@ -451,7 +450,11 @@
             createSlide(slideUrl);
             refreshPage();
             showHideMenu();
-            updateSliderFour();
+
+            if (sliderNumber === 4) {
+                showEndlessCarouselSlider(slideIndex);
+            }
+
         } else {
             alert('Что-то пошло не так! Повторите попытку позже.')
         }
