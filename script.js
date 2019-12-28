@@ -15,13 +15,14 @@
         settingsMenu = document.querySelector('.settings'),
         changeBg = document.querySelector('.change-bg'),
         resetSettings = document.querySelector('.reset-settings'),
-        newSlide = document.querySelector('.new-slide')
+        newSlide = document.querySelector('.new-slide'),
+        deleteSlide = document.querySelector('.delete-slide');
     let slideIndex = 0;
 
     let sliderNumber = +prompt('Выберите номер анимации слайдера(1- карусель, 2- исчезновение, 3- галерея, 4 - бесконечная карусель)', 4);
     updateSlider();
     startSlider();
-    autoSlide();
+    // autoSlide();
 
     function startSlider() {
         if (sliderNumber === 1) {
@@ -275,11 +276,11 @@
     function createFirstSlide() {
 
         let firstSlide = document.createElement('li');
-        firstSlide.innerHTML = slidItem[0].innerHTML;
-        firstSlide.style.display = 'inline-block';
-        firstSlide.classList.add('slider-item');
-        firstSlide.classList.add('first-slide');
-        sliderUl.append(firstSlide);
+            firstSlide.innerHTML = slidItem[0].innerHTML;
+            firstSlide.style.display = 'inline-block';
+            firstSlide.classList.add('slider-item');
+            firstSlide.classList.add('first-slide');
+            sliderUl.append(firstSlide);
     }
 
     function createLastSlide() {
@@ -308,19 +309,19 @@
             dot.classList.remove('dot-active');
         });
 
-        if(slideIndex <= 1) {
+        if (slideIndex <= 1) {
             dotItem[0].classList.add('dot-active');
-        }else if(slideIndex >= dotItem.length) {
-            dotItem[dotItem.length -1].classList.add('dot-active');
-        }else {
+        } else if (slideIndex >= dotItem.length) {
+            dotItem[dotItem.length - 1].classList.add('dot-active');
+        } else {
             dotItem[slideIndex - 1].classList.add('dot-active');
         }
-        
+
     }
 
-    // function togglesDotSliderFour() {
-       
-    // }
+    function togglesDotSliderFour(slideIndex) {
+
+    }
 
     function showEndlessCarouselSlider(slideIndex) {
         updateSliderFour();
@@ -373,7 +374,7 @@
             if (target.classList.contains('dot')) {
                 for (let i = 0; i < dotItem.length; i++) {
                     if (target === dotItem[i]) {
-                        slideIndex = i+1;
+                        slideIndex = i + 1;
                         slideTransition();
                         switchSlide(slideIndex);
                         activeDot(slideIndex);
@@ -500,5 +501,46 @@
         }
     }
     newSlide.addEventListener('click', addNewSlide);
+
+
+    // delete slide -------------------------------------------------------------------------------
+
+    function deletSlide() {
+
+        let slideNumber = +prompt('Введите номер слайда', 1);
+        if (sliderNumber === 4) {
+            if (typeof slideNumber === 'number' && slideNumber >= 1 && slideNumber <= slidItem.length-2) {
+                slidItem[slideNumber].remove();
+                dotItem[slideNumber-1].remove();
+                refreshPage();
+                    showEndlessCarouselSlider(slideIndex);
+                    alert(`Слайд № ${slideNumber} удален!`);
+            }else {
+                alert('Введено некорректное значение!');
+            }
+
+        }else if(sliderNumber >= 1 && sliderNumber < 4 ) {
+
+            slideNumber-= 1;
+
+            if (typeof slideNumber === 'number' && slideNumber >= 0 && slideNumber < slidItem.length) {
+                slidItem[slideNumber].remove();
+                dotItem[slideNumber].remove();
+                refreshPage();
+                alert(`Слайд № ${slideNumber + 1} удален!`);
+            }else {
+                alert('Введено некорректное значение!');
+            }
+
+        }
+         else {
+            alert('Введено некорректное значение!');
+        }
+
+
+
+    };
+
+    deleteSlide.addEventListener('click', deletSlide);
 
 })();
