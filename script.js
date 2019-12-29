@@ -263,7 +263,7 @@
                 li.style.display = 'inline-block';
                 li.innerHTML = slidItem[i].innerHTML;
                 sliderUl.prepend(li);
-            }  
+            }
         }
         slider = document.querySelector('.slider');
         slidItem = document.querySelectorAll('.slider-item');
@@ -307,6 +307,7 @@
             activeDotSliderGalery();
         }
     }
+
     function startFormEnd() {
         if (slideIndex === 0) {
             slideIndex = slidItem.length - 6;
@@ -317,14 +318,36 @@
 
         }
     }
+
     function activeDotSliderGalery() {
         dotItem.forEach((dot, index) => {
-            if(index === slideIndex - 3) {
+            if (index === slideIndex - 3) {
                 dot.classList.add('dot-active');
-            }else {
+            } else {
                 dot.classList.remove('dot-active');
             }
-        })
+        });
+        if(slideIndex < 3) {
+            dotItem[slideIndex + 3].classList.add('dot-active');
+        }
+    }
+
+    function dotsClickSliderGalery() {
+        sliderDots.addEventListener('click', (event) => {
+            let target = event.target;
+            if (target.classList.contains('dot')) {
+                for (let i = 0; i < dotItem.length; i++) {
+                    if (dotItem[i] === target) {
+                        slideIndex = i + 3;
+
+                    }
+                }
+            }
+            slider.style.transition = '0.5s';
+            slider.style.transform = `translateX(-${slidItem[0].clientWidth * slideIndex + 5*slideIndex}px)`;
+            showBigSlide();
+            activeDotSliderGalery();
+        });
     }
 
     function showSliderGalery(slideIndex) {
@@ -333,13 +356,17 @@
         startSlidePosition();
         showBigSlide();
         activeDotSliderGalery();
-        console.log(slideIndex);
+        dotsClickSliderGalery();
+
 
         next.addEventListener('click', nextSlideSliderGalery);
         prev.addEventListener('click', prevSlideSliderGalery);
 
         slider.addEventListener('transitionend', startFromBegining);
         slider.addEventListener('transitionend', startFormEnd);
+
+        
+
     }
 
 
