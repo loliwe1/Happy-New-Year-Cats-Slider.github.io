@@ -201,12 +201,22 @@
         });
     };
 
+    // function styleSlideActive() {
+    //     console.log(slideIndex);
+    //     slidItem.forEach(slide => {
+    //         slide.classList.remove('active-slide__show');
+    //     });
+    //     slidItem[slideIndex+1].classList.add('active-slide__show');
+    //     if(slideIndex === slidItem.length -3) {
+    //         slidItem[4].classList.add('active-slide__show');
+    //     }
+    // }
+
     function createStyleBigSlid() {
         bigPhoto.style.display = 'block';
     };
 
     function showBigSlide() {
-
         let handler = function() {
             bigPhoto.classList.remove('big-photo__show');
             bigPhoto.removeEventListener('transitionend', handler);
@@ -225,10 +235,11 @@
 
     function createStyleSlider() {
         slider.style.width = '12000px';
-        slider.style.paddingTop = '10px';
+        slider.style.paddingTop = '15px';
+        slider.style.paddingBottom = '10px';
         sliderWrapper.style.overflow = 'hidden';
         sliderWrapper.style.width = '540px';
-        sliderWrapper.style.paddingTop = '10px';
+        sliderWrapper.style.paddingTop = '5px';
     }
 
     function sliderArrowsStyle() {
@@ -258,8 +269,9 @@
 
     function createCopySlide() {
         slidItem.forEach(value => {
+            value.classList.remove('fade');
             if (value.classList.contains('duble-slide')) {
-                value.remove()
+                value.remove();  
             };
         });
         slider = document.querySelector('.slider');
@@ -270,7 +282,6 @@
             if (index === 0 || index === 1 || index === 2) {
                 let li = document.createElement('li');
                 li.classList.add('slider-item');
-                li.classList.add('fade');
                 li.classList.add('duble-slide');
                 li.style.display = 'inline-block';
                 li.innerHTML = value.innerHTML;
@@ -281,7 +292,6 @@
             if (i === slidItem.length - 1 || i === slidItem.length - 2 || i === slidItem.length - 3) {
                 let li = document.createElement('li');
                 li.classList.add('slider-item');
-                li.classList.add('fade');
                 li.classList.add('duble-slide');
                 li.style.display = 'inline-block';
                 li.innerHTML = slidItem[i].innerHTML;
@@ -304,10 +314,11 @@
             return;
         }
         slideIndex++;
-        slider.style.transition = '0.5s';
+        slider.style.transition = '1s';
         slider.style.transform = `translateX(-${slidItem[0].clientWidth * slideIndex + 5*slideIndex}px)`;
         showBigSlide();
-        activeDotSliderGalery()
+        activeDotSliderGalery();
+        // styleSlideActive();
     }
 
     function prevSlideSliderGalery() {
@@ -315,10 +326,11 @@
             return;
         }
         slideIndex--;
-        slider.style.transition = '0.5s';
+        slider.style.transition = '1s';
         slider.style.transform = `translateX(-${slidItem[0].clientWidth * slideIndex + 5*slideIndex}px)`;
         showBigSlide();
         activeDotSliderGalery();
+        // styleSlideActive();
     }
 
     function startFromBegining() {
@@ -343,15 +355,15 @@
     }
 
     function activeDotSliderGalery() {
-        dotItem.forEach((dot, index) => {
-            if (index === slideIndex - 3) {
-                dot.classList.add('dot-active');
-            } else {
-                dot.classList.remove('dot-active');
-            }
-        });
+            dotItem.forEach((dot, index) => {
+                if (index === slideIndex - 3) {
+                    dot.classList.add('dot-active');
+                } else {
+                    dot.classList.remove('dot-active');
+                }
+            });
         if(slideIndex < 3) {
-            dotItem[slideIndex + 3].classList.add('dot-active');
+            dotItem[slideIndex + dotItem.length  - 3].classList.add('dot-active');
         }
     }
 
@@ -366,7 +378,7 @@
                     }
                 }
             }
-            slider.style.transition = '0.5s';
+            slider.style.transition = '1s';
             slider.style.transform = `translateX(-${slidItem[0].clientWidth * slideIndex + 5*slideIndex}px)`;
             showBigSlide();
             activeDotSliderGalery();
@@ -380,6 +392,7 @@
         showBigSlide();
         activeDotSliderGalery();
         dotsClickSliderGalery();
+        // styleSlideActive();
 
 
         next.addEventListener('click', nextSlideSliderGalery);

@@ -298,15 +298,27 @@ img {
 .dot:hover {
   background: rgba(0, 0, 0, 0.4);
 }
-
+/* js animation ---------------------------------------------------------- */
 .big-photo__hide {
   opacity: 0;
 }
 
 .big-photo__show {
-  transition: opacity 0.5s;
+  transition: opacity 1s;
 }
 
+.active-slide__show{
+  transition: 0.5s all;
+
+  transform: scale(1.1);
+
+}
+
+
+
+
+
+/* adaptive -------------------------------------------------------------- */
 @media (max-width: 1600px){
   .settings {
     top: 7%;
