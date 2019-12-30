@@ -304,14 +304,17 @@ img {
 }
 
 .big-photo__show {
-  transition: opacity 1s;
+  transition: opacity 0.5s;
 }
 
 .active-slide__show{
-  transition: 0.5s all;
-
+  transition: 0.5s transform;
   transform: scale(1.1);
 
+}
+.active-slide__hide {
+  transition: 0.5s transform;
+  transform: scale(1);
 }
 
 
