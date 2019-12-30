@@ -1,6 +1,9 @@
 'use strict';
 
 (function () {
+    document.documentElement.onmousedown = () => {
+        return false;
+    };
 
     let sliderWrapper = document.querySelector('.slider_wrapper'),
         slider = document.querySelector('.slider'),
@@ -41,7 +44,7 @@
             setInterval(nextSlideCarousel, 5000);
         } else if (sliderNumber === 2) {
             setInterval(nextSlide, 5000);
-        }else if(sliderNumber === 3) {
+        } else if (sliderNumber === 3) {
             // setInterval(nextSlideSliderGalery, 3000);
         }
     }
@@ -123,9 +126,6 @@
 
         prev.addEventListener('click', prevSlide);
         next.addEventListener('click', nextSlide);
-        document.documentElement.onmousedown = () => {
-            return false;
-        };
         togglesDot();
 
 
@@ -194,25 +194,33 @@
     // third slider option -----------------------------------------------------  
 
     function raf(fn) {
-        window.requestAnimationFrame(function() {
-            window.requestAnimationFrame(function() {
+        window.requestAnimationFrame(function () {
+            window.requestAnimationFrame(function () {
                 fn();
             })
         });
     };
+
+    function styleDotsClick() {
+        slidItem.forEach(value => {
+            value.classList.remove('active-slide__hide');
+            value.classList.remove('active-slide__show');
+        });
+    }
+
     function stylePrevSlideActive() {
-        slidItem[slideIndex +1].classList.add('active-slide__show');
+        slidItem[slideIndex + 1].classList.add('active-slide__show');
         slidItem[slideIndex + 2].classList.add('active-slide__hide');
 
-        let handler = function() {
+        let handler = function () {
             slidItem[slideIndex + 2].classList.remove('active-slide__hide');
             slidItem[slideIndex + 2].classList.remove('active-slide__show');
-            slidItem[slideIndex + 2 ].removeEventListener('transitionend', handler);
+            slidItem[slideIndex + 2].removeEventListener('transitionend', handler);
         }
 
-        slidItem[slideIndex + 2 ].addEventListener('transitionend', handler);
+        slidItem[slideIndex + 2].addEventListener('transitionend', handler);
 
-        if(slideIndex === 0) {
+        if (slideIndex === 0) {
             slidItem[slidItem.length - 5].classList.add('active-slide__show');
         }
     }
@@ -221,7 +229,7 @@
         slidItem[slideIndex + 1].classList.add('active-slide__show');
         slidItem[slideIndex].classList.add('active-slide__hide');
 
-        let handler = function() {
+        let handler = function () {
             slidItem[slideIndex].classList.remove('active-slide__hide');
             slidItem[slideIndex].classList.remove('active-slide__show');
             slidItem[slideIndex].removeEventListener('transitionend', handler);
@@ -229,7 +237,7 @@
 
         slidItem[slideIndex].addEventListener('transitionend', handler);
 
-        if(slideIndex === slidItem.length - 3) {
+        if (slideIndex === slidItem.length - 3) {
             slidItem[4].classList.add('active-slide__show');
         }
     };
@@ -239,7 +247,7 @@
     };
 
     function showBigSlide() {
-        let handler = function() {
+        let handler = function () {
             bigPhoto.classList.remove('big-photo__show');
             bigPhoto.removeEventListener('transitionend', handler);
         };
@@ -247,7 +255,7 @@
         bigPhoto.classList.add('big-photo__hide');
         bigPhoto.innerHTML = slidItem[slideIndex + 1].innerHTML;
 
-        raf(function() {
+        raf(function () {
             bigPhoto.classList.add('big-photo__show');
             bigPhoto.classList.remove('big-photo__hide');
         });
@@ -293,7 +301,7 @@
         slidItem.forEach(value => {
             value.classList.remove('fade');
             if (value.classList.contains('duble-slide')) {
-                value.remove();  
+                value.remove();
             };
         });
         slider = document.querySelector('.slider');
@@ -385,15 +393,15 @@
     }
 
     function activeDotSliderGalery() {
-            dotItem.forEach((dot, index) => {
-                if (index === slideIndex - 3) {
-                    dot.classList.add('dot-active');
-                } else {
-                    dot.classList.remove('dot-active');
-                }
-            });
-        if(slideIndex < 3) {
-            dotItem[slideIndex + dotItem.length  - 3].classList.add('dot-active');
+        dotItem.forEach((dot, index) => {
+            if (index === slideIndex - 3) {
+                dot.classList.add('dot-active');
+            } else {
+                dot.classList.remove('dot-active');
+            }
+        });
+        if (slideIndex < 3) {
+            dotItem[slideIndex + dotItem.length - 3].classList.add('dot-active');
         }
     }
 
@@ -401,17 +409,22 @@
         sliderDots.addEventListener('click', (event) => {
             let target = event.target;
             if (target.classList.contains('dot')) {
-                for (let i = 0; i < dotItem.length; i++) {
-                    if (dotItem[i] === target) {
-                        slideIndex = i + 3;
-
+                if (target.classList.contains('dot-active')) {
+                    return
+                }else {
+                    styleDotsClick();
+                    for (let i = 0; i < dotItem.length; i++) {
+                        if (dotItem[i] === target) {
+                            slideIndex = i + 3;
+                            slidItem[slideIndex + 1].classList.add('active-slide__show');
+                        }
                     }
-                }
+                    slider.style.transition = '0.5s';
+                    slider.style.transform = `translateX(-${slidItem[0].clientWidth * slideIndex + 5*slideIndex}px)`;
+                    showBigSlide();
+                    activeDotSliderGalery();
+                }   
             }
-            slider.style.transition = '0.5s';
-            slider.style.transform = `translateX(-${slidItem[0].clientWidth * slideIndex + 5*slideIndex}px)`;
-            showBigSlide();
-            activeDotSliderGalery();
         });
     }
 
@@ -431,7 +444,7 @@
         slider.addEventListener('transitionend', startFromBegining);
         slider.addEventListener('transitionend', startFormEnd);
 
-        
+
 
     }
 

@@ -58,12 +58,12 @@ body {
   background: white;
   text-align: center;
   width: 1300px;
-  min-height: 700px;
+  min-height: 800px;
   margin: 0 auto;
   border-radius: 4%;
   position: fixed;
   z-index: 2;
-  top: 5%;
+  top: 7%;
   left: 20%;
 }
 
