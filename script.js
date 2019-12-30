@@ -19,8 +19,16 @@
         changeBg = document.querySelector('.change-bg'),
         resetSettings = document.querySelector('.reset-settings'),
         newSlide = document.querySelector('.new-slide'),
-        deleteSlide = document.querySelector('.delete-slide');
+        deleteSlide = document.querySelector('.delete-slide'),
+        autoSpeed = document.querySelector('.auto-speed');
     let slideIndex = 0;
+    let ms = 5000;
+    let timerId;
+
+    if(localStorage.getItem('ms')) {
+        ms = localStorage.getItem('ms');
+    }
+
 
     let sliderNumber = +prompt('Выберите номер анимации слайдера(1- карусель, 2- исчезновение, 3- галерея, 4 - бесконечная карусель)', 3);
     updateSlider();
@@ -41,12 +49,18 @@
 
     function autoSlide() {
         if (sliderNumber === 1) {
-            setInterval(nextSlideCarousel, 5000);
+            timerId = setInterval(nextSlideCarousel, ms);
         } else if (sliderNumber === 2) {
-            setInterval(nextSlide, 5000);
+            timerId = setInterval(nextSlide, ms);
         } else if (sliderNumber === 3) {
-            // setInterval(nextSlideSliderGalery, 3000);
+            timerId = setInterval(nextSlideSliderGalery, ms);
+        }else  {
+            return;
         }
+    }
+
+    function autoSlideStop(timerId) {
+        clearInterval(timerId);
     }
 
     function updateSlider() {
@@ -411,7 +425,7 @@
             if (target.classList.contains('dot')) {
                 if (target.classList.contains('dot-active')) {
                     return
-                }else {
+                } else {
                     styleDotsClick();
                     for (let i = 0; i < dotItem.length; i++) {
                         if (dotItem[i] === target) {
@@ -423,7 +437,7 @@
                     slider.style.transform = `translateX(-${slidItem[0].clientWidth * slideIndex + 5*slideIndex}px)`;
                     showBigSlide();
                     activeDotSliderGalery();
-                }   
+                }
             }
         });
     }
@@ -725,5 +739,22 @@
     };
 
     deleteSlide.addEventListener('click', deletSlide);
+
+
+    // auto switch speed --------------------------------
+    function autoSlideSpeed() {
+        autoSpeed.addEventListener('click', () => {
+            ms = +prompt('Введите скорость переключения в милисекундах', 1000);
+            autoSlideStop(timerId);
+            autoSlide();
+            localStorage.setItem('ms', ms);
+        });
+
+    }
+    autoSlideSpeed();
+
+
+
+
 
 })();
