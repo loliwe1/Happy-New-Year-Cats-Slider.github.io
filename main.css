@@ -165,12 +165,7 @@ img {
   height: 550px;
   display: none;
   margin: 0 auto;
-  transition: all 2s;
 }
-
-
-
-
 .prev {
   position: absolute;
   top: 70px;
@@ -302,6 +297,14 @@ img {
 
 .dot:hover {
   background: rgba(0, 0, 0, 0.4);
+}
+
+.big-photo__hide {
+  opacity: 0;
+}
+
+.big-photo__show {
+  transition: opacity 0.5s;
 }
 
 @media (max-width: 1600px){

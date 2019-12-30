@@ -41,6 +41,8 @@
             setInterval(nextSlideCarousel, 5000);
         } else if (sliderNumber === 2) {
             setInterval(nextSlide, 5000);
+        }else if(sliderNumber === 3) {
+            // setInterval(nextSlideSliderGalery, 3000);
         }
     }
 
@@ -190,15 +192,36 @@
     }
 
     // third slider option -----------------------------------------------------  
+
+    function raf(fn) {
+        window.requestAnimationFrame(function() {
+            window.requestAnimationFrame(function() {
+                fn();
+            })
+        });
+    };
+
     function createStyleBigSlid() {
         bigPhoto.style.display = 'block';
     };
 
-
     function showBigSlide() {
+
+        let handler = function() {
+            bigPhoto.classList.remove('big-photo__show');
+            bigPhoto.removeEventListener('transitionend', handler);
+        };
+
+        bigPhoto.classList.add('big-photo__hide');
         bigPhoto.innerHTML = slidItem[slideIndex + 1].innerHTML;
 
-    }
+        raf(function() {
+            bigPhoto.classList.add('big-photo__show');
+            bigPhoto.classList.remove('big-photo__hide');
+        });
+
+        bigPhoto.addEventListener('transitionend', handler)
+    };
 
     function createStyleSlider() {
         slider.style.width = '12000px';
