@@ -20,7 +20,8 @@
         resetSettings = document.querySelector('.reset-settings'),
         newSlide = document.querySelector('.new-slide'),
         deleteSlide = document.querySelector('.delete-slide'),
-        autoSpeed = document.querySelector('.auto-speed');
+        autoSpeed = document.querySelector('.auto-speed'),
+        offAutoSlide = document.querySelector('.off-auto-slide');
     let slideIndex = 0;
     let ms = 5000;
     let timerId;
@@ -753,8 +754,25 @@
     }
     autoSlideSpeed();
 
+// off auto switch slider 
+let Autoswitch = 'on';
+function offOnAutoSwitch() {
 
+    if(Autoswitch === 'on') {
+        alert('Автопереключение выключено!');
+        clearInterval(timerId);
+        Autoswitch = 'off'
+    }else if(Autoswitch === 'off') {
+        alert('Автопереключение включено!!!');
+        autoSlide();
+        Autoswitch = 'on'
+    }
 
+    settingsMenu.classList.toggle('settings-display');
+
+}
+
+offAutoSlide.addEventListener('click', offOnAutoSwitch);
 
 
 })();
