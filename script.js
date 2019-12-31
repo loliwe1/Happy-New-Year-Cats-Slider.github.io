@@ -1,6 +1,18 @@
 'use strict';
 
 (function () {
+    // preloader ---------------------------------------------------------------
+    window.addEventListener('load', function () {
+        let preloader = document.querySelector('.preloader');
+        setTimeout(function () {
+            preloader.classList.add('preloader-done');
+
+            preloader.addEventListener('transitionend', () => {
+                preloader.style.display = 'none';
+            })
+        }, 500)
+    });
+    //------------------------------------------------------------------------------
     document.documentElement.onmousedown = () => {
         return false;
     };
@@ -26,7 +38,7 @@
     let ms = 5000;
     let timerId;
 
-    if(localStorage.getItem('ms')) {
+    if (localStorage.getItem('ms')) {
         ms = localStorage.getItem('ms');
     }
 
@@ -35,6 +47,7 @@
     updateSlider();
     startSlider();
     autoSlide();
+
 
     function startSlider() {
         if (sliderNumber === 1) {
@@ -55,9 +68,12 @@
             timerId = setInterval(nextSlide, ms);
         } else if (sliderNumber === 3) {
             timerId = setInterval(nextSlideSliderGalery, ms);
-        }else  {
-            return;
+        } else if (sliderNumber === 4) {
+            slideIndex = 1;
+            timerId = setInterval(nextSlideInSliderFour, ms);
         }
+
+
     }
 
     function autoSlideStop(timerId) {
@@ -355,7 +371,7 @@
     }
 
     function nextSlideSliderGalery() {
-        if (slideIndex === slidItem.length - 3 || slidItem[slideIndex - 1].classList.contains('active-slide__hide')) {
+        if (slideIndex === slidItem.length - 3) {
             return;
         }
         slideIndex++;
@@ -533,6 +549,31 @@
 
     }
 
+    function nextSlideInSliderFour() {
+        if (slideIndex >= slidItem.length - 1) return;
+        slideIndex++;
+        slideTransition();
+        switchSlide(slideIndex);
+        activeDot(slideIndex);
+
+        slider.addEventListener('transitionend', () => {
+            if (slidItem[slideIndex].classList.contains('first-slide')) {
+                slider.style.transition = 'none';
+                slideIndex = 1;
+                activeDot(slideIndex);
+                switchSlide(slideIndex);
+            }
+
+            if (slidItem[slideIndex].classList.contains('last-slide')) {
+                slider.style.transition = 'none';
+                slideIndex = slidItem.length - 2;
+                activeDot(slideIndex);
+                switchSlide(slideIndex);
+
+            }
+        });
+    }
+
     function showEndlessCarouselSlider(slideIndex) {
         updateSliderFour();
         slideIndex = 1;
@@ -543,6 +584,7 @@
         activeDot(slideIndex);
 
         next.addEventListener('click', () => {
+            console.log(slideIndex)
             if (slideIndex >= slidItem.length - 1) return;
             slideIndex++;
             slideTransition();
@@ -694,6 +736,8 @@
             if (sliderNumber === 4) {
                 showEndlessCarouselSlider(slideIndex);
             }
+            autoSlideStop(timerId);
+            autoSlide();
 
         } else {
             alert('Что-то пошло не так! Повторите попытку позже.')
@@ -714,6 +758,7 @@
                 refreshPage();
                 showEndlessCarouselSlider(slideIndex);
                 alert(`Слайд № ${slideNumber} удален!`);
+                showHideMenu();
             } else {
                 alert('Введено некорректное значение!');
             }
@@ -727,6 +772,7 @@
                 dotItem[slideNumber].remove();
                 refreshPage();
                 alert(`Слайд № ${slideNumber + 1} удален!`);
+                showHideMenu();
             } else {
                 alert('Введено некорректное значение!');
             }
@@ -745,34 +791,45 @@
     // auto switch speed --------------------------------
     function autoSlideSpeed() {
         autoSpeed.addEventListener('click', () => {
-            ms = +prompt('Введите скорость переключения в милисекундах', 1000);
-            autoSlideStop(timerId);
-            autoSlide();
-            localStorage.setItem('ms', ms);
+            let msL = +prompt('Введите скорость переключения в милисекундах от 1 до 10 секунд', 1000);
+            if (msL >= 1000 && msL <= 10000) {
+                ms = msL;
+                autoSlideStop(timerId);
+                autoSlide();
+                localStorage.setItem('ms', ms);
+                alert(`Скорость автопереключения равна ${ms}мс !`);
+                settingsMenu.classList.toggle('settings-display');
+            } else {
+                alert(`Введено некорректное значение!!!`);
+                return;
+            }
+
         });
+
 
     }
     autoSlideSpeed();
 
-// off auto switch slider 
-let Autoswitch = 'on';
-function offOnAutoSwitch() {
+    // off auto switch slider 
+    let Autoswitch = 'on';
 
-    if(Autoswitch === 'on') {
-        alert('Автопереключение выключено!');
-        clearInterval(timerId);
-        Autoswitch = 'off'
-    }else if(Autoswitch === 'off') {
-        alert('Автопереключение включено!!!');
-        autoSlide();
-        Autoswitch = 'on'
+    function offOnAutoSwitch() {
+
+        if (Autoswitch === 'on') {
+            alert('Автопереключение выключено!');
+            autoSlideStop(timerId);
+            Autoswitch = 'off'
+        } else if (Autoswitch === 'off') {
+            alert('Автопереключение включено!!!');
+            autoSlide();
+            Autoswitch = 'on'
+        }
+
+        settingsMenu.classList.toggle('settings-display');
+
     }
 
-    settingsMenu.classList.toggle('settings-display');
-
-}
-
-offAutoSlide.addEventListener('click', offOnAutoSwitch);
+    offAutoSlide.addEventListener('click', offOnAutoSwitch);
 
 
 })();

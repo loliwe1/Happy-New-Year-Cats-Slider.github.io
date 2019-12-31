@@ -318,6 +318,60 @@ img {
 }
 
 
+.preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+  z-index: 9999999;
+  transition: 1s all;
+  opacity: 1;
+  visibility: visible;
+}
+
+.preloader-inner {
+  width: 125px;
+  height: 125px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  text-align: center;
+  border: 10px solid aqua;
+  border-top-color: white;
+  transform: translate(-50%, -50%);
+
+  animation: preloader-animate 2s infinite linear;
+
+}
+
+.preloader-percent{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 30px;
+
+}
+
+.preloader-done {
+  opacity: 0;
+  visibility: visible;
+}
+
+@keyframes preloader-animate {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
 
 
 
