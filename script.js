@@ -84,6 +84,14 @@
         }
     }
 
+    document.addEventListener('visibilitychange', () => {
+        if(document.hidden) {
+            autoSlideStop(timerId);
+        }else {
+            autoSlide();
+        }
+    });
+
     function autoSlide() {
         if (sliderNumber === 1) {
             timerId = setInterval(nextSlideCarousel, ms);
