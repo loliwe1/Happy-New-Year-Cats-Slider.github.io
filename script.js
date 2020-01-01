@@ -81,6 +81,14 @@
             showSliderGalery(slideIndex);
         } else if (sliderNumber === 4) {
             showEndlessCarouselSlider(slideIndex);
+        }else {
+            alert("Введено некорректное значение, попробуйте еще раз!");
+            sliderNumber = +prompt('Выберите номер анимации слайдера(1- карусель, 2- исчезновение, 3- галерея, 4 - бесконечная карусель)', 3);
+            updateSlider();
+            startSlider();
+            autoSlide();
+        
+
         }
     }
 
@@ -817,6 +825,8 @@
     };
 
     deleteSlide.addEventListener('click', deletSlide);
+
+
 
 
     // auto switch speed --------------------------------
