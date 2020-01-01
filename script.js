@@ -2,35 +2,39 @@
 
 (function () {
     // preloader ---------------------------------------------------------------
-    let preloader = document.querySelector('.preloader');
-    let imagePercent = document.querySelector('.preloader-percent__inner');
-    let images = document.images;
-    let imgaesTotalCount = images.length;
-    let imagesLoadingCount = 0;
-    let imagesClone;
 
-    for (const image of images) {
-        imagesClone = new Image();
-        imagesClone.onload = imageLoaded;
-        imagesClone.onerror = imageLoaded;
-        imagesClone.src = image.src;
-    }
-
-    function imageLoaded() {
-        imagesLoadingCount++;
-        imagePercent.innerHTML = Math.floor(((100 / imgaesTotalCount) * imagesLoadingCount)) + '%';
-        
-        if(imagesLoadingCount >= imgaesTotalCount) {
-            setTimeout(function () {
-                preloader.classList.add('preloader-done');
+    function startPreloader() {
+        let preloader = document.querySelector('.preloader');
+        let imagePercent = document.querySelector('.preloader-percent__inner');
+        let images = document.images;
+        let imgaesTotalCount = images.length;
+        let imagesLoadingCount = 0;
+        let imagesClone;
     
-                preloader.addEventListener('transitionend', () => {
-                    preloader.style.display = 'none';
-                })
-            }, 500)
+        for (const image of images) {
+            imagesClone = new Image();
+            imagesClone.onload = imageLoaded;
+            imagesClone.onerror = imageLoaded;
+            imagesClone.src = image.src;
+        }
+    
+        function imageLoaded() {
+            imagesLoadingCount++;
+            imagePercent.innerHTML = Math.floor(((100 / imgaesTotalCount) * imagesLoadingCount)) + '%';
+            
+            if(imagesLoadingCount >= imgaesTotalCount) {
+                setTimeout(function () {
+                    preloader.classList.add('preloader-done');
+        
+                    preloader.addEventListener('transitionend', () => {
+                        preloader.style.display = 'none';
+                    })
+                }, 500)
+            }
         }
     }
 
+    startPreloader();
     //------------------------------------------------------------------------------
     document.documentElement.onmousedown = () => {
         return false;
