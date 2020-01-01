@@ -1,6 +1,6 @@
 @font-face {
   font-family: HappyNewYear;
-  src: url(/fonts/A.ChausettesdeNoel.Alen.Rus.woff);
+  src: url(./fonts/A.ChausettesdeNoel.Alen.Rus.woff);
 }
 
 * {
@@ -16,7 +16,7 @@ a {
 }
 
 body {
-  background: url(/images/bg/NY-bg.jpg);
+  background: url(./images/bg/NY-bg.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   height: 100%;
@@ -206,7 +206,7 @@ img {
 .arrow_left {
   width: 30px;
   height: 30px;
-  background: url(../icons/left-arrow.svg) center no-repeat;
+  background: url(./icons/left-arrow.svg) center no-repeat;
   background-size: cover;
   position: absolute;
   top: 50%;
@@ -246,7 +246,7 @@ img {
 .arrow_right {
   width: 30px;
   height: 30px;
-  background: url(../icons/right-arrow.svg) center no-repeat;
+  background: url(./icons/right-arrow.svg) center no-repeat;
   background-size: cover;
   position: absolute;
   top: 50%;
