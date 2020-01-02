@@ -72,10 +72,11 @@
 
 
     let sliderNumber = +prompt('Выберите номер анимации слайдера(1- карусель, 2- исчезновение, 3- галерея, 4 - бесконечная карусель)', 3);
-    // refreshDeletSlidesOnPage();
+    refreshDeletSlidesOnPage();
     updateSlider();
     startSlider();
     autoSlide();
+
 
 
 
@@ -101,9 +102,12 @@
     }
 
     document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
+        if (document.hidden && Autoswitch === 'on') {
             autoSlideStop(timerId);
-        } else {
+
+        } else if(document.hidden && Autoswitch === 'off') {
+            return;
+        }else {
             autoSlide();
         }
     });
@@ -843,18 +847,16 @@
     }
 
     function refreshDeletSlidesOnPage() {
-        if(sliderNumber === 3 || sliderNumber === 4) {
-            return;
-        }
-       else if (localStorage.getItem('newSlider')) {
+
+        if (localStorage.getItem('newSlider')) {
             let newSlider = JSON.parse(localStorage.getItem('newSlider'));
-          for (let i = 0; i < slidItem.length; i++) {
-            slidItem[i].remove();
-            if(dotItem[i]) {
-                dotItem[i].remove();
+            for (let i = 0; i < slidItem.length; i++) {
+                slidItem[i].remove();
+                if (dotItem[i]) {
+                    dotItem[i].remove();
+                }
             }
 
-          }
             newSlider.forEach(newSlide => {
                 let li = document.createElement('li');
                 let div = document.createElement('div');
@@ -862,13 +864,15 @@
                 sliderDots.append(div);
                 li.classList.add('slider-item');
                 li.classList.add('fade');
-                li.style.display = 'none';
+                // li.style.display = 'none';
                 li.innerHTML = newSlide;
                 sliderUl.append(li);
             })
+
         } else {
             return;
         }
+        refreshPage();
     }
 
     deleteSlide.addEventListener('click', deletSlide);
@@ -906,7 +910,7 @@
         if (Autoswitch === 'on') {
             alert('Автопереключение выключено!');
             autoSlideStop(timerId);
-            Autoswitch = 'off'
+            Autoswitch = 'off';
         } else if (Autoswitch === 'off') {
             alert('Автопереключение включено!!!');
             autoSlide();
