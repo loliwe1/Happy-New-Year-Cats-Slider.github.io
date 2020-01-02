@@ -10,22 +10,22 @@
         let imgaesTotalCount = images.length;
         let imagesLoadingCount = 0;
         let imagesClone;
-    
+
         for (const image of images) {
             imagesClone = new Image();
             imagesClone.onload = imageLoaded;
             imagesClone.onerror = imageLoaded;
             imagesClone.src = image.src;
         }
-    
+
         function imageLoaded() {
             imagesLoadingCount++;
             imagePercent.innerHTML = Math.floor(((100 / imgaesTotalCount) * imagesLoadingCount)) + '%';
-            
-            if(imagesLoadingCount >= imgaesTotalCount) {
+
+            if (imagesLoadingCount >= imgaesTotalCount) {
                 setTimeout(function () {
                     preloader.classList.add('preloader-done');
-        
+
                     preloader.addEventListener('transitionend', () => {
                         preloader.style.display = 'none';
                     })
@@ -39,6 +39,8 @@
     document.documentElement.onmousedown = () => {
         return false;
     };
+
+
 
     let sliderWrapper = document.querySelector('.slider_wrapper'),
         slider = document.querySelector('.slider'),
@@ -61,15 +63,21 @@
     let ms = 5000;
     let timerId;
 
+
     if (localStorage.getItem('ms')) {
         ms = localStorage.getItem('ms');
-    }
+    };
+
+
 
 
     let sliderNumber = +prompt('Выберите номер анимации слайдера(1- карусель, 2- исчезновение, 3- галерея, 4 - бесконечная карусель)', 3);
+    // refreshDeletSlidesOnPage();
     updateSlider();
     startSlider();
     autoSlide();
+
+
 
 
     function startSlider() {
@@ -81,21 +89,21 @@
             showSliderGalery(slideIndex);
         } else if (sliderNumber === 4) {
             showEndlessCarouselSlider(slideIndex);
-        }else {
+        } else {
             alert("Введено некорректное значение, попробуйте еще раз!");
             sliderNumber = +prompt('Выберите номер анимации слайдера(1- карусель, 2- исчезновение, 3- галерея, 4 - бесконечная карусель)', 3);
             updateSlider();
             startSlider();
             autoSlide();
-        
+
 
         }
     }
 
     document.addEventListener('visibilitychange', () => {
-        if(document.hidden) {
+        if (document.hidden) {
             autoSlideStop(timerId);
-        }else {
+        } else {
             autoSlide();
         }
     });
@@ -820,9 +828,48 @@
             alert('Введено некорректное значение!');
         }
 
-
+        saveDeleteChanges();
 
     };
+
+    function saveDeleteChanges() {
+        let slidesSaved = [];
+        slidItem.forEach(slide => {
+            slidesSaved.push(slide.innerHTML);
+        });
+
+        localStorage.setItem('newSlider', JSON.stringify(slidesSaved));
+
+    }
+
+    function refreshDeletSlidesOnPage() {
+        if(sliderNumber === 3 || sliderNumber === 4) {
+            return;
+        }
+       else if (localStorage.getItem('newSlider')) {
+            let newSlider = JSON.parse(localStorage.getItem('newSlider'));
+          for (let i = 0; i < slidItem.length; i++) {
+            slidItem[i].remove();
+            if(dotItem[i]) {
+                dotItem[i].remove();
+            }
+
+          }
+            newSlider.forEach(newSlide => {
+                let li = document.createElement('li');
+                let div = document.createElement('div');
+                div.classList.add('dot');
+                sliderDots.append(div);
+                li.classList.add('slider-item');
+                li.classList.add('fade');
+                li.style.display = 'none';
+                li.innerHTML = newSlide;
+                sliderUl.append(li);
+            })
+        } else {
+            return;
+        }
+    }
 
     deleteSlide.addEventListener('click', deletSlide);
 
